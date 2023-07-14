@@ -2,7 +2,7 @@ package code
 
 import (
 	"fmt"
-	"github.com/solafs/go-chainstorage-sdk/utils"
+	"github.com/solarfs/go-chainstorage-sdk/utils"
 	"strings"
 )
 

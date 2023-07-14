@@ -1,7 +1,7 @@
 package _interface
 
 import (
-	"github.com/solafs/go-chainstorage-sdk/model"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"io"
 )
 

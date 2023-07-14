@@ -1,4 +1,4 @@
-module github.com/solafs/go-chainstorage-sdk
+module github.com/solarfs/go-chainstorage-sdk
 
 go 1.20
 
