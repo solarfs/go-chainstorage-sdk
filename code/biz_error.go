@@ -2,7 +2,7 @@ package code
 
 import (
 	"fmt"
-	"github.com/paradeum-team/chainstorage-sdk/utils"
+	"github.com/solafs/go-chainstorage-sdk/utils"
 	"strings"
 )
 

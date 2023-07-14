@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	chainstoragesdk "github.com/paradeum-team/chainstorage-sdk"
-	"github.com/paradeum-team/chainstorage-sdk/code"
-	"github.com/paradeum-team/chainstorage-sdk/consts"
-	"github.com/paradeum-team/chainstorage-sdk/model"
-	"github.com/paradeum-team/chainstorage-sdk/utils"
 	"github.com/pkg/errors"
+	chainstoragesdk "github.com/solafs/go-chainstorage-sdk"
+	"github.com/solafs/go-chainstorage-sdk/code"
+	"github.com/solafs/go-chainstorage-sdk/consts"
+	"github.com/solafs/go-chainstorage-sdk/model"
+	"github.com/solafs/go-chainstorage-sdk/utils"
 	"github.com/spf13/cobra"
 	"github.com/ulule/deepcopier"
 	"net/http"
