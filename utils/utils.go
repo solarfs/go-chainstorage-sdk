@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"github.com/solafs/go-chainstorage-sdk/consts"
+	"github.com/solarfs/go-chainstorage-sdk/consts"
 	"io"
 	"log"
 	"math/rand"

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/solafs/go-chainstorage-sdk/model"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"net/http"
 	"sync"
 )

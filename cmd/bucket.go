@@ -2,10 +2,10 @@ package main
 
 import (
 	"github.com/pkg/errors"
-	chainstoragesdk "github.com/solafs/go-chainstorage-sdk"
-	sdkcode "github.com/solafs/go-chainstorage-sdk/code"
-	"github.com/solafs/go-chainstorage-sdk/consts"
-	"github.com/solafs/go-chainstorage-sdk/model"
+	chainstoragesdk "github.com/solarfs/go-chainstorage-sdk"
+	sdkcode "github.com/solarfs/go-chainstorage-sdk/code"
+	"github.com/solarfs/go-chainstorage-sdk/consts"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"github.com/spf13/cobra"
 	"github.com/ulule/deepcopier"
 	"net/http"
