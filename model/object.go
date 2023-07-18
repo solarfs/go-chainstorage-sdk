@@ -18,6 +18,7 @@ type Object struct {
 	LinkedStorageObject     map[string]interface{} `json:"linkedStorageObject" comment:"链存类型对象"`
 	CreatedAt               time.Time              `json:"createdAt" comment:"创建时间"`
 	UpdatedAt               time.Time              `json:"updatedAt" comment:"最后更新时间"`
+	Gateway                 Gateway                `json:"gateway" comment:"网关"`
 }
 
 type ObjectPageResponse struct {

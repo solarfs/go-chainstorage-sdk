@@ -48,6 +48,7 @@ const (
 	errInvalidObjectCid
 	errInvalidObjectId
 	errInvalidObjectIds
+	errObjectBindWithGateway
 )
 
 // ApiKey
@@ -122,6 +123,7 @@ var (
 	ErrInvalidObjectCid              = NewBizError(errInvalidObjectCid, "无效的对象CID", "Invalid object CID")
 	ErrInvalidObjectId               = NewBizError(errInvalidObjectId, "无效的对象ID", "invalid object ID")
 	ErrInvalidObjectIds              = NewBizError(errInvalidObjectIds, "无效的对象ID列表", "invalid object ID list")
+	ErrObjectBindWithGateway         = NewBizError(errObjectBindWithGateway, "对象已经与网关绑定，无法删除", "The object is bound with gateway and cannot be deleted")
 
 	// ApiKey
 	ErrApiKeyNotFound                        = NewBizError(errApiKeyNotFound, "该 APIKey 不存在", "The APIKey does not exist")
