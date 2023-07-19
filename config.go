@@ -200,12 +200,13 @@ func initConfigWithConfigFile(configFile string) {
 
 }
 
-func InitConfigWithDefault() {
+func InitConfigWithDefault() ApplicationConfig {
 	//rand.Seed(time.Now().UnixNano())
 	config, err := gprofile.Profile(&ApplicationConfig{}, "./chainstorage-sdk.yaml", true)
 	if err != nil {
 		fmt.Errorf("Profile execute error", err)
 	}
+
 	appConfig = *config.(*ApplicationConfig)
 	cssConfig = config.(*ApplicationConfig).Server
 	cssLoggerConfig = config.(*ApplicationConfig).Logger
@@ -246,4 +247,6 @@ func InitConfigWithDefault() {
 	} else if !strings.HasPrefix(cssConfig.ChainStorageApiToken, "Bearer ") {
 		cssConfig.ChainStorageApiToken = "Bearer " + cssConfig.ChainStorageApiToken
 	}
+
+	return appConfig
 }

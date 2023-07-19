@@ -21,6 +21,7 @@ type CssClient struct {
 	Bucket     *Bucket
 	Object     *Object
 	Car        *Car
+	Upload     *Upload
 }
 
 func newClient(config *ApplicationConfig) (*CssClient, error) {
@@ -37,6 +38,7 @@ func newClient(config *ApplicationConfig) (*CssClient, error) {
 		mClient.Bucket = &Bucket{Config: mClient.Config, Client: mClient.httpClient, logger: mClient.Logger.logger}
 		mClient.Object = &Object{Config: mClient.Config, Client: mClient.httpClient, logger: mClient.Logger.logger}
 		mClient.Car = &Car{Config: mClient.Config, Client: mClient.httpClient, logger: mClient.Logger.logger}
+		mClient.Upload = &Upload{Config: mClient.Config, Client: mClient.httpClient, logger: mClient.Logger.logger}
 	})
 
 	//mClient.Logger.logger.Error("client new.")
@@ -44,7 +46,6 @@ func newClient(config *ApplicationConfig) (*CssClient, error) {
 }
 
 func New(config *ApplicationConfig) (*CssClient, error) {
-
 	return newClient(config)
 }
 
