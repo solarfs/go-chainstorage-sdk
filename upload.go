@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"github.com/alanshaw/go-carbites"
@@ -28,6 +29,7 @@ type Upload struct {
 // sema is a counting semaphore for limiting concurrency in dirEntries.
 var sema = make(chan struct{}, 20)
 
+// 上传数据
 func (u *Upload) UploadData(bucketName, dataPath string) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -172,6 +174,12 @@ func (u *Upload) uploadCarFile(bucketId int, dataPath string) (model.ObjectCreat
 	objectCid := rootLink.Cid.String()
 	objectSize := int64(rootLink.Size)
 	objectName := rootLink.Name
+
+	// check if upload data via stream, will change the name of object into cid.
+	dataDir := filepath.Dir(dataPath)
+	if dataDir == u.Config.CarFileWorkPath && filepath.Ext(dataPath) == ".rawdata" {
+		objectName = objectCid
+	}
 
 	// 设置请求参数
 	carFileUploadReq.BucketId = bucketId
@@ -521,6 +529,88 @@ func (u *Upload) generateShardingCarFiles(req *model.CarFileUploadReq, shardingC
 	req.ShardingAmount = shardingAmount
 
 	return nil
+}
+
+// 上传数据通过流
+func (u *Upload) UploadDataViaStream(bucketName string, stream io.Reader) (model.ObjectCreateResponse, error) {
+	response := model.ObjectCreateResponse{}
+
+	// 桶名称
+	if err := checkBucketName(bucketName); err != nil {
+		return response, err
+	}
+
+	// 接收文件
+	dataPath, err := u.receiveFile(stream)
+	if err != nil {
+		return response, err
+	}
+
+	// 确认桶数据有效性
+	bucket := Bucket{Config: u.Config, Client: u.Client, logger: u.logger}
+	respBucket, err := bucket.GetBucketByName(bucketName)
+	if err != nil {
+		return response, err
+	}
+
+	statusCode := int(respBucket.Code)
+	if statusCode != http.StatusOK {
+		return response, errors.New(respBucket.Msg)
+	}
+
+	// 桶ID
+	bucketId := respBucket.Data.Id
+
+	// 检查上传数据使用限制
+	storageNetworkCode := respBucket.Data.StorageNetworkCode
+	err = u.checkDataUsageLimitation(storageNetworkCode, dataPath)
+	if err != nil {
+		return response, err
+	}
+
+	// 对象上传
+	response, err = u.uploadCarFile(bucketId, dataPath)
+	if err != nil {
+		return response, err
+	}
+
+	return response, nil
+}
+
+// 接收文件
+func (u *Upload) receiveFile(stream io.Reader) (string, error) {
+	var dataPath string
+
+	// 上传数据流
+	if stream == nil {
+		return dataPath, code.ErrCarUploadFileInvalidDataStream
+	}
+
+	car := Car{Config: u.Config, Client: u.Client, logger: u.logger}
+	dataPath = car.GenerateTempFileName(utils.CurrentDate()+"_", ".rawdata")
+
+	file, err := os.Create(dataPath)
+	if err != nil {
+		return dataPath, err
+	}
+	defer file.Close()
+
+	// Wrap the file writer with a bufio.Writer for buffering
+	writer := bufio.NewWriter(file)
+
+	// Use io.Copy to efficiently copy data from the stream to the file with buffering
+	_, err = io.Copy(writer, stream)
+	if err != nil {
+		return dataPath, err
+	}
+
+	// Flush the buffered writer to ensure all data is written to the file
+	err = writer.Flush()
+	if err != nil {
+		return dataPath, err
+	}
+
+	return dataPath, nil
 }
 
 // region auxiliary method
