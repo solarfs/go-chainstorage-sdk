@@ -23,7 +23,7 @@ type Bucket struct {
 
 // region 桶数据
 
-// 获取桶数据列表
+// GetBucketList 获取桶数据列表
 func (b *Bucket) GetBucketList(bucketName string, pageSize, pageIndex int) (model.BucketPageResponse, error) {
 	response := model.BucketPageResponse{}
 
@@ -84,7 +84,7 @@ func (b *Bucket) GetBucketList(bucketName string, pageSize, pageIndex int) (mode
 	return response, nil
 }
 
-// 创建桶数据
+// CreateBucket 创建桶数据
 func (b *Bucket) CreateBucket(bucketName string, storageNetworkCode, bucketPrincipleCode int) (model.BucketCreateResponse, error) {
 	response := model.BucketCreateResponse{}
 
@@ -137,7 +137,7 @@ func (b *Bucket) CreateBucket(bucketName string, storageNetworkCode, bucketPrinc
 	return response, nil
 }
 
-// 清空桶数据
+// EmptyBucket 清空桶数据
 func (b *Bucket) EmptyBucket(bucketId int) (model.BucketEmptyResponse, error) {
 	response := model.BucketEmptyResponse{}
 
@@ -180,7 +180,7 @@ func (b *Bucket) EmptyBucket(bucketId int) (model.BucketEmptyResponse, error) {
 	return response, nil
 }
 
-// 删除桶数据
+// RemoveBucket 删除桶数据
 func (b *Bucket) RemoveBucket(bucketId int, autoEmptyBucketData bool) (model.BucketRemoveResponse, error) {
 	response := model.BucketRemoveResponse{}
 
@@ -228,7 +228,7 @@ func (b *Bucket) RemoveBucket(bucketId int, autoEmptyBucketData bool) (model.Buc
 	return response, nil
 }
 
-// 根据桶名称获取桶数据
+// GetBucketByName 根据桶名称获取桶数据
 func (b *Bucket) GetBucketByName(bucketName string) (model.BucketCreateResponse, error) {
 	response := model.BucketCreateResponse{}
 
@@ -308,7 +308,7 @@ func (b *Bucket) GetStorageNetworkBucketStat(storageNetworkCode int) (model.Buck
 	return response, nil
 }
 
-// 根据存储类型获取UsersQuota对象
+// GetUsersQuotaByStorageNetworkCode 根据存储类型获取UsersQuota对象
 func (b *Bucket) GetUsersQuotaByStorageNetworkCode(storageNetworkCode int) (model.UsersQuotaResponse, error) {
 	response := model.UsersQuotaResponse{}
 

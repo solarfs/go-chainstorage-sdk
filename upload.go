@@ -29,7 +29,7 @@ type Upload struct {
 // sema is a counting semaphore for limiting concurrency in dirEntries.
 var sema = make(chan struct{}, 20)
 
-// 上传数据
+// UploadData 上传数据
 func (u *Upload) UploadData(bucketName, dataPath string) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -531,7 +531,7 @@ func (u *Upload) generateShardingCarFiles(req *model.CarFileUploadReq, shardingC
 	return nil
 }
 
-// 上传数据通过流
+// UploadDataViaStream 上传数据通过流
 func (u *Upload) UploadDataViaStream(bucketName string, stream io.Reader) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 

@@ -22,7 +22,7 @@ type Object struct {
 
 // region 对象数据
 
-// 获取对象数据列表
+// GetObjectList 获取对象数据列表
 func (o *Object) GetObjectList(bucketId int, objectItem string, pageSize, pageIndex int) (model.ObjectPageResponse, error) {
 	response := model.ObjectPageResponse{}
 
@@ -81,7 +81,7 @@ func (o *Object) GetObjectList(bucketId int, objectItem string, pageSize, pageIn
 	return response, nil
 }
 
-// 删除对象数据
+// RemoveObject 删除对象数据
 func (o *Object) RemoveObject(objectIds []int) (model.ObjectRemoveResponse, error) {
 	response := model.ObjectRemoveResponse{}
 
@@ -124,7 +124,7 @@ func (o *Object) RemoveObject(objectIds []int) (model.ObjectRemoveResponse, erro
 	return response, nil
 }
 
-// 重命名对象数据
+// RenameObject 重命名对象数据
 func (o *Object) RenameObject(objectId int, objectName string, isOverwrite bool) (model.ObjectRenameResponse, error) {
 	response := model.ObjectRenameResponse{}
 
@@ -177,7 +177,7 @@ func (o *Object) RenameObject(objectId int, objectName string, isOverwrite bool)
 	return response, nil
 }
 
-// 设置对象数据星标
+// MarkObject 设置对象数据星标
 func (o *Object) MarkObject(objectId int, isMarked bool) (model.ObjectMarkResponse, error) {
 	response := model.ObjectMarkResponse{}
 
@@ -225,7 +225,7 @@ func (o *Object) MarkObject(objectId int, isMarked bool) (model.ObjectMarkRespon
 	return response, nil
 }
 
-// 根据CID检查是否已经存在Object
+// IsExistObjectByCid 根据CID检查是否已经存在Object
 func (o *Object) IsExistObjectByCid(objectCid string) (model.ObjectExistResponse, error) {
 	response := model.ObjectExistResponse{}
 
@@ -272,7 +272,7 @@ func (o *Object) IsExistObjectByCid(objectCid string) (model.ObjectExistResponse
 	return response, nil
 }
 
-// 根据对象名称检查是否已经存在Object
+// GetObjectByName 根据对象名称检查是否已经存在Object
 func (o *Object) GetObjectByName(bucketId int, objectName string) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
