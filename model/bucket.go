@@ -15,6 +15,7 @@ type Bucket struct {
 	Status              int       `json:"status" comment:"记录状态（0-有效，1-删除）"`
 	CreatedAt           time.Time `json:"createdAt" comment:"创建时间"`
 	UpdatedAt           time.Time `json:"updatedAt" comment:"最后更新时间"`
+	Gateways            []Gateway `json:"gateways" comment:"网关列表"`
 }
 
 type BucketPageResponse struct {

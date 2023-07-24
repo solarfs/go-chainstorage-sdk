@@ -48,6 +48,7 @@ const (
 	errInvalidObjectCid
 	errInvalidObjectId
 	errInvalidObjectIds
+	errObjectBindWithGateway
 )
 
 // ApiKey
@@ -76,6 +77,7 @@ const (
 	errCarUploadFileExccedObjectAmountUsage
 	errCarUploadFileExccedStorageSpaceUsage
 	errCarUploadFileExccedUploadDirItems
+	errCarUploadFileInvalidDataStream
 )
 
 var (
@@ -122,6 +124,7 @@ var (
 	ErrInvalidObjectCid              = NewBizError(errInvalidObjectCid, "无效的对象CID", "Invalid object CID")
 	ErrInvalidObjectId               = NewBizError(errInvalidObjectId, "无效的对象ID", "invalid object ID")
 	ErrInvalidObjectIds              = NewBizError(errInvalidObjectIds, "无效的对象ID列表", "invalid object ID list")
+	ErrObjectBindWithGateway         = NewBizError(errObjectBindWithGateway, "对象已经与网关绑定，无法删除", "The object is bound with gateway and cannot be deleted")
 
 	// ApiKey
 	ErrApiKeyNotFound                        = NewBizError(errApiKeyNotFound, "该 APIKey 不存在", "The APIKey does not exist")
@@ -145,6 +148,7 @@ var (
 	ErrCarUploadFileExccedObjectAmountUsage = NewBizError(errCarUploadFileExccedObjectAmountUsage, "超过对象存储限制", "Exceed the limitation of object amount")
 	ErrCarUploadFileExccedStorageSpaceUsage = NewBizError(errCarUploadFileExccedStorageSpaceUsage, "超过空间存储限制", "Exceed the limitation of storage space")
 	ErrCarUploadFileExccedUploadDirItems    = NewBizError(errCarUploadFileExccedUploadDirItems, "超过上传文件夹条目限制", "Exceed the limitation of entries in uploading folder")
+	ErrCarUploadFileInvalidDataStream       = NewBizError(errCarUploadFileInvalidDataStream, "无效的上传数据流", "Invalid uploading data stream")
 
 	////登录注册
 	//ErrWalletInvalidFailed               = NewBizError(errLogin, "钱包地址非法空", "Invalid wallet")

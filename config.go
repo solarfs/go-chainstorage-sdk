@@ -7,6 +7,9 @@ import (
 	"strings"
 )
 
+const HTTP_PREFIX = "http://"
+const HTTPS_PREFIX = "https://"
+
 var appConfig ApplicationConfig
 var cssConfig Configuration
 var cssLoggerConfig LoggerConf
@@ -70,13 +73,13 @@ func initConfig(config *ApplicationConfig) {
 	//check chain-storage-api base address
 	if len(cssConfig.ChainStorageApiEndpoint) > 0 {
 		chainStorageAPIEndpoint := cssConfig.ChainStorageApiEndpoint
-		if !strings.HasPrefix(chainStorageAPIEndpoint, "http://") &&
-			!strings.HasPrefix(chainStorageAPIEndpoint, "https://") {
+		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
+			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
 			if cssConfig.UseHTTPSProtocol {
-				cssConfig.ChainStorageApiEndpoint = "https://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
-				cssConfig.ChainStorageApiEndpoint = "http://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
 			}
 
 			//fmt.Println("ERROR: invalid chain-storage-api endpoint in Configuration, chain-storage-api endpoint must be a valid http/https url, exiting")
@@ -142,7 +145,7 @@ func initConfigWithConfigFile(configFile string) {
 
 	config, err := gprofile.Profile(&ApplicationConfig{}, configFile, true)
 	if err != nil {
-		fmt.Errorf("Profile execute error", err)
+		fmt.Printf("Profile execute error:%+v\n", err)
 	}
 
 	appConfig = *config.(*ApplicationConfig)
@@ -158,13 +161,13 @@ func initConfigWithConfigFile(configFile string) {
 	//check chain-storage-api base address
 	if len(cssConfig.ChainStorageApiEndpoint) > 0 {
 		chainStorageAPIEndpoint := cssConfig.ChainStorageApiEndpoint
-		if !strings.HasPrefix(chainStorageAPIEndpoint, "http://") &&
-			!strings.HasPrefix(chainStorageAPIEndpoint, "https://") {
+		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
+			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
 			if cssConfig.UseHTTPSProtocol {
-				cssConfig.ChainStorageApiEndpoint = "https://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
-				cssConfig.ChainStorageApiEndpoint = "http://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
 			}
 
 			//fmt.Println("ERROR: invalid chain-storage-api endpoint in Configuration, chain-storage-api endpoint must be a valid http/https url, exiting")
@@ -200,12 +203,13 @@ func initConfigWithConfigFile(configFile string) {
 
 }
 
-func InitConfigWithDefault() {
+func InitConfigWithDefault() ApplicationConfig {
 	//rand.Seed(time.Now().UnixNano())
 	config, err := gprofile.Profile(&ApplicationConfig{}, "./chainstorage-sdk.yaml", true)
 	if err != nil {
-		fmt.Errorf("Profile execute error", err)
+		fmt.Printf("Profile execute error:%+v\n", err)
 	}
+
 	appConfig = *config.(*ApplicationConfig)
 	cssConfig = config.(*ApplicationConfig).Server
 	cssLoggerConfig = config.(*ApplicationConfig).Logger
@@ -219,13 +223,13 @@ func InitConfigWithDefault() {
 	//check chain-storage-api base address
 	if len(cssConfig.ChainStorageApiEndpoint) > 0 {
 		chainStorageAPIEndpoint := cssConfig.ChainStorageApiEndpoint
-		if !strings.HasPrefix(chainStorageAPIEndpoint, "http://") &&
-			!strings.HasPrefix(chainStorageAPIEndpoint, "https://") {
+		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
+			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
 			if cssConfig.UseHTTPSProtocol {
-				cssConfig.ChainStorageApiEndpoint = "https://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
-				cssConfig.ChainStorageApiEndpoint = "http://" + chainStorageAPIEndpoint
+				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
 			}
 
 			//fmt.Println("ERROR: invalid chain-storage-api endpoint in Configuration, chain-storage-api endpoint must be a valid http/https url, exiting")
@@ -246,4 +250,6 @@ func InitConfigWithDefault() {
 	} else if !strings.HasPrefix(cssConfig.ChainStorageApiToken, "Bearer ") {
 		cssConfig.ChainStorageApiToken = "Bearer " + cssConfig.ChainStorageApiToken
 	}
+
+	return appConfig
 }

@@ -46,14 +46,14 @@ type Car struct {
 	logger *golog.Logger
 }
 
-// 创建CAR文件
+// CreateCarFile 创建CAR文件
 func (c *Car) CreateCarFile(dataPath string, fileDestination string) error {
 	ctx := context.Background()
 	carVersion := c.Config.CarVersion
 	return createCar(ctx, carVersion, fileDestination, dataPath)
 }
 
-// 创建CAR文件分片
+// SplitCarFile 创建CAR文件分片
 func (c *Car) SplitCarFile(carFilePath string, chunkedFileDestinations *[]string) error {
 	// CAR file chunking setting
 	// todo:
@@ -63,7 +63,7 @@ func (c *Car) SplitCarFile(carFilePath string, chunkedFileDestinations *[]string
 	return chunkCarFile(carFilePath, targetSize, strategy, chunkedFileDestinations)
 }
 
-// 引用对象
+// ReferenceObject 引用对象
 func (c *Car) ReferenceObject(req *model.CarFileUploadReq) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -119,7 +119,7 @@ func (c *Car) ReferenceObject(req *model.CarFileUploadReq) (model.ObjectCreateRe
 	return response, nil
 }
 
-// 上传CAR文件
+// UploadCarFile 上传CAR文件
 func (c *Car) UploadCarFile(req *model.CarFileUploadReq) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -177,7 +177,7 @@ func (c *Car) UploadCarFile(req *model.CarFileUploadReq) (model.ObjectCreateResp
 	return response, nil
 }
 
-// 上传CAR文件分片
+// UploadShardingCarFile 上传CAR文件分片
 func (c *Car) UploadShardingCarFile(req *model.CarFileUploadReq) (model.ShardingCarFileUploadResponse, error) {
 	response := model.ShardingCarFileUploadResponse{}
 
@@ -294,7 +294,7 @@ func (c *Car) VerifyShardingCarFiles(req *model.CarFileUploadReq) (model.Shardin
 	return response, nil
 }
 
-// 确认上传CAR文件分片结果
+// ConfirmShardingCarFiles 确认上传CAR文件分片结果
 func (c *Car) ConfirmShardingCarFiles(req *model.CarFileUploadReq) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -370,7 +370,7 @@ func createCar(ctx context.Context, carVersion int, fileDestination, dataPath st
 	}
 	proxyRoot := cid.NewCidV1(uint64(multicodec.DagPb), hash)
 
-	options := []car.Option{}
+	var options []car.Option
 	switch carVersion {
 	case 1:
 		options = []car.Option{blockstore.WriteAsCarV1(true)}
@@ -559,7 +559,7 @@ func parseCarDag(carFilePath string, rootLink *model.RootLink) error {
 
 // endregion CAR file
 
-// TempFileName generates a temporary filename for use in testing or whatever
+// GenerateTempFileName TempFileName generates a temporary filename for use in testing or whatever
 func (c *Car) GenerateTempFileName(prefix, suffix string) string {
 	randBytes := make([]byte, 16)
 	rand.Read(randBytes)
@@ -618,7 +618,7 @@ func (c *Car) SliceBigCarFile(carFilePath string) error {
 	return nil
 }
 
-// 生成CAR分片文件
+// GenerateShardingCarFiles 生成CAR分片文件
 func (c *Car) GenerateShardingCarFiles(req *model.CarFileUploadReq, shardingCarFileUploadReqs *[]model.CarFileUploadReq) error {
 	fileDestination := req.FileDestination
 
@@ -718,7 +718,7 @@ func (c *Car) GenerateShardingCarFiles(req *model.CarFileUploadReq, shardingCarF
 	return nil
 }
 
-// 上传数据
+// UploadData 上传数据
 // func UploadData(bucketId int, dataPath string) (model.CarResponse, error) {
 func (c *Car) UploadData(bucketId int, dataPath string) (model.ObjectCreateResponse, error) {
 	//response := model.CarResponse{}
@@ -842,32 +842,30 @@ func (c *Car) UploadData(bucketId int, dataPath string) (model.ObjectCreateRespo
 	return response, err
 }
 
-// 上传大CAR文件
+// UploadBigCarFile 上传大CAR文件
 func (c *Car) UploadBigCarFile(req *model.CarFileUploadReq) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
 	// 生成CAR分片文件
-	shardingCarFileUploadReqs := []model.CarFileUploadReq{}
+	var shardingCarFileUploadReqs []model.CarFileUploadReq
 	err := c.GenerateShardingCarFiles(req, &shardingCarFileUploadReqs)
 	if err != nil {
 		return response, err
 	}
 
 	// 上传CAR文件分片
-	uploadingReqs := []model.CarFileUploadReq{}
+	var uploadingReqs []model.CarFileUploadReq
 	deepcopier.Copy(&shardingCarFileUploadReqs).To(&uploadingReqs)
 
-	//for {
-	//
-	//}
-	for i, _ := range shardingCarFileUploadReqs {
+	for i := range shardingCarFileUploadReqs {
+		// todo: add logs?
 		c.UploadShardingCarFile(&shardingCarFileUploadReqs[i])
 	}
 
 	return response, nil
 }
 
-// 上传CAR文件
+// UploadCarFileExt 上传CAR文件
 func (c *Car) UploadCarFileExt(req *model.CarFileUploadReq, extReader io.Reader) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -925,7 +923,7 @@ func (c *Car) UploadCarFileExt(req *model.CarFileUploadReq, extReader io.Reader)
 	return response, nil
 }
 
-// 上传CAR文件分片
+// UploadShardingCarFileExt 上传CAR文件分片
 func (c *Car) UploadShardingCarFileExt(req *model.CarFileUploadReq, extReader io.Reader) (model.ShardingCarFileUploadResponse, error) {
 	response := model.ShardingCarFileUploadResponse{}
 
@@ -984,7 +982,7 @@ func (c *Car) UploadShardingCarFileExt(req *model.CarFileUploadReq, extReader io
 	return response, nil
 }
 
-// 导入CAR文件
+// ImportCarFileExt 导入CAR文件
 func (c *Car) ImportCarFileExt(req *model.CarFileUploadReq, extReader io.Reader) (model.ObjectCreateResponse, error) {
 	response := model.ObjectCreateResponse{}
 
@@ -1042,7 +1040,7 @@ func (c *Car) ImportCarFileExt(req *model.CarFileUploadReq, extReader io.Reader)
 	return response, nil
 }
 
-// 导入CAR文件分片
+// ImportShardingCarFileExt 导入CAR文件分片
 func (c *Car) ImportShardingCarFileExt(req *model.CarFileUploadReq, extReader io.Reader) (model.ShardingCarFileUploadResponse, error) {
 	response := model.ShardingCarFileUploadResponse{}
 
@@ -1101,7 +1099,7 @@ func (c *Car) ImportShardingCarFileExt(req *model.CarFileUploadReq, extReader io
 	return response, nil
 }
 
-// 提取CAR文件
+// ExtractCarFile 提取CAR文件
 func (c *Car) ExtractCarFile(carFilePath string, dataDestination string) error {
 	carFile, err := os.Open(carFilePath)
 	if err != nil {

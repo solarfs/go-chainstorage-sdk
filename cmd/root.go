@@ -59,7 +59,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
-	applicationConfig = chainstoragesdk.ApplicationConfig{}
+	applicationConfig = chainstoragesdk.InitConfigWithDefault()
 
 	rootCmd.AddCommand(
 		bucketListCmd,
@@ -70,6 +70,7 @@ func Execute() {
 		objectRenameCmd,
 		objectRemoveCmd,
 		objectDownloadCmd,
+		uploadCmd,
 	)
 
 	if err := rootCmd.Execute(); err != nil {

@@ -181,7 +181,7 @@ Status: {{.Code}}
 {{.ObjectAmount}} {{.StorageNetwork}} {{.BucketPrinciple}} {{.UsedSpace}} {{.CreatedDate}} {{.BucketName}}
 {{- end}}
 {{- end}}
-	`
+`
 
 	//	templateContent := `
 	//total {{len .List}}{{if eq (len .List) 0}}
@@ -196,7 +196,6 @@ Status: {{.Code}}
 		//fmt.Printf("err:%+v", resp)
 		//panic(err)
 		processError("ls", err, args)
-
 	}
 
 	err = t.Execute(os.Stdout, bucketListOutput)
@@ -205,7 +204,6 @@ Status: {{.Code}}
 		//fmt.Printf("err:%+v", resp)
 		//panic(err)
 		processError("ls", err, args)
-
 	}
 }
 
