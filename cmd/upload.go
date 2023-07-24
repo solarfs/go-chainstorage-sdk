@@ -45,11 +45,20 @@ func uploadRun(cmd *cobra.Command, args []string) {
 		processError("upload", err, args)
 	}
 
+	file, err := os.Open(dataPath)
+	defer file.Close()
+
 	// 上传对象
-	response, err := sdk.Upload.UploadData(bucketName, dataPath)
+	response, err := sdk.Upload.UploadDataViaStream(bucketName, file)
 	if err != nil {
 		processError("upload", err, args)
 	}
+
+	//// 上传对象
+	//response, err := sdk.Upload.UploadData(bucketName, dataPath)
+	//if err != nil {
+	//	processError("upload", err, args)
+	//}
 
 	uploadRunOutput(cmd, args, response)
 }

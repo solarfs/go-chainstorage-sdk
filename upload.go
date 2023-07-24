@@ -176,8 +176,7 @@ func (u *Upload) uploadCarFile(bucketId int, dataPath string) (model.ObjectCreat
 	objectName := rootLink.Name
 
 	// check if upload data via stream, will change the name of object into cid.
-	dataDir := filepath.Dir(dataPath)
-	if dataDir == u.Config.CarFileWorkPath && filepath.Ext(dataPath) == ".rawdata" {
+	if fileBelongsToFolder(dataPath, u.Config.CarFileWorkPath) && filepath.Ext(dataPath) == ".rawdata" {
 		objectName = objectCid
 	}
 
@@ -808,6 +807,18 @@ func (u *Upload) isFolderNotEmpty(path string) (bool, error) {
 func (u *Upload) getTimestampString() string {
 	timestampString := time.Now().Format("2006-01-02 15:04:05.000000000") //当前时间的字符串，2006-01-02 15:04:05据说是golang的诞生时间，固定写法
 	return timestampString
+}
+
+func fileBelongsToFolder(filePath, folderPath string) bool {
+	// Get the directory path from the file path
+	dirPath := filepath.Dir(filepath.Clean(filePath))
+
+	// Get the cleaned version of the target folder path
+	cleanedFolderPath := filepath.Clean(folderPath)
+
+	// Check if the directory path of the file is the same as the target folder path
+	//return strings.HasPrefix(dirPath, cleanedFolderPath+string(filepath.Separator))
+	return strings.HasPrefix(dirPath+string(filepath.Separator), cleanedFolderPath)
 }
 
 // endregion auxiliary method
