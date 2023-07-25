@@ -140,7 +140,7 @@ func initConfig(config *ApplicationConfig) {
 func initConfigWithConfigFile(configFile string) {
 	//rand.Seed(time.Now().UnixNano())
 	//if len(configFile) == 0 {
-	//	configFile = "./github.com/paradeum-team/chainstorage-sdk.yaml"
+	//	configFile = "./github.com/solarfs/go-chainstorage-sdk.yaml"
 	//}
 	if len(configFile) == 0 {
 		configFile = "./chainstorage-sdk.yaml"

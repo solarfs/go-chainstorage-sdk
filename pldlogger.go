@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/kataras/golog"
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"github.com/paradeum-team/chainstorage-sdk/utils"
+	"github.com/solarfs/go-chainstorage-sdk/utils"
 	"io"
 	"os"
 	"path"

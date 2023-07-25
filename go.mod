@@ -1,4 +1,4 @@
-module github.com/paradeum-team/chainstorage-sdk
+module github.com/solarfs/go-chainstorage-sdk
 
 go 1.20
 

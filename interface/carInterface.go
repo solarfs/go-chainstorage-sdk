@@ -1,7 +1,7 @@
 package _interface
 
 import (
-	"github.com/paradeum-team/chainstorage-sdk/model"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"io"
 )
 

@@ -83,7 +83,7 @@ To use the SDK in your project, follow these steps:
 1. Install Go (minimum version 1.20.2) on your system.
 2. Create a new Go module or navigate to your existing project directory.
 3. Run the following command to add the SDK as a dependency:
-   go get github.com/paradeum-team/chainstorage-sdk
+   go get github.com/solarfs/go-chainstorage-sdk
 
 ## 3. Getting Started
 
@@ -97,7 +97,7 @@ To initialize the SDK, use the following code snippet:
 ```go
 package main
 
-import "github.com/paradeum-team/chainstorage-sdk"
+import "github.com/solarfs/go-chainstorage-sdk"
 
 func main() {
 // Set configuration
@@ -1404,7 +1404,7 @@ Refer to the SDK documentation for information on how to extend or customize the
 
 **Q5: How can I contribute to the SDK development or report issues?**
 A: If you would like to contribute to the SDK development or report issues, you can typically find the SDK's source code
-repository or project page on platforms like [chainstorage-sdk](https://github.com/paradeum-team/chainstorage-sdk).
+repository or project page on platforms like [chainstorage-sdk](https://github.com/solarfs/go-chainstorage-sdk).
 There, you can submit bug reports, feature requests, or even contribute code improvements through pull requests. Check
 the SDK documentation or project page for specific instructions on how to contribute or report issues.
 

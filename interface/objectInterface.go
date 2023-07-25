@@ -1,6 +1,6 @@
 package _interface
 
-import "github.com/paradeum-team/chainstorage-sdk/model"
+import "github.com/solarfs/go-chainstorage-sdk/model"
 
 type Object interface {
 	GetObjectList(bucketId int, objectItem string, pageSize, pageIndex int) (model.ObjectPageResponse, error)

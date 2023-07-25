@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/paradeum-team/chainstorage-sdk/model"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"net/http"
 	"sync"
 )

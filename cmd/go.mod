@@ -1,4 +1,4 @@
-module github.com/paradeum-team/chainstorage-sdk/cmd
+module github.com/solarfs/go-chainstorage-sdk/cmd
 
 go 1.20
 
@@ -27,7 +27,7 @@ require (
 	golang.org/x/term v0.5.0 // indirect
 )
 
-require github.com/paradeum-team/chainstorage-sdk v0.0.5
+require github.com/solarfs/go-chainstorage-sdk v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/alanshaw/go-carbites v0.6.0 // indirect
@@ -102,5 +102,5 @@ require (
 
 replace (
 	github.com/go-resty/resty => gopkg.in/resty.v1 v1.11.0
-	github.com/paradeum-team/chainstorage-sdk => ./../
+	github.com/solarfs/go-chainstorage-sdk => ./../
 )
