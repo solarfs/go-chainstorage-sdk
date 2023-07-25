@@ -19,3 +19,4 @@
 *.log
 VERSION
 runtime
+cmd/chainstorage-sdk.yaml
