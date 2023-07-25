@@ -1,0 +1,21 @@
+server:
+  #chainstorage api endpoint
+  chainStorageAPIEndpoint: http://127.0.0.1:8821
+  #CAR working folder
+  carFileWorkPath: ./temp/carfile
+  #sharding threshold of car file
+  carFileShardingThreshold: 104857600
+  #chainstorage API token
+  chainStorageApiToken:
+  #HTTP request user agent
+  httpRequestUserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+  #HTTP request user agent
+  httpRequestOvertime: 30
+
+logger:
+  logPath: ./logs
+  mode: debug
+  level: info
+  isOutPutFile: true
+  maxAgeDay: 7
+  rotationTime: 1
