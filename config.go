@@ -35,7 +35,7 @@ type Configuration struct {
 	CarFileWorkPath string `profile:"carFileWorkPath" profileDefault:"./tmp/carfile" json:"carFileWorkPath"`
 
 	// CAR文件分片阈值
-	CarFileShardingThreshold int `profile:"carFileShardingThreshold" profileDefault:"46137344" json:"carFileShardingThreshold"`
+	CarFileShardingThreshold int `profile:"carFileShardingThreshold" profileDefault:"45613056" json:"carFileShardingThreshold"`
 
 	// 链存服务API token
 	ChainStorageApiToken string `profile:"chainStorageApiToken" profileDefault:"" json:"chainStorageApiToken"`
@@ -107,7 +107,10 @@ func initConfig(config *ApplicationConfig) {
 	//	cssConfig.CarFileShardingThreshold = 10485760
 	//}
 	// CAR文件分片阈值（固定44Mb）
-	cssConfig.CarFileShardingThreshold = 46137344
+	//cssConfig.CarFileShardingThreshold = 45613056
+
+	// car文件分片算法存在误差，因此实际分片大小限制到42MB
+	cssConfig.CarFileShardingThreshold = 44040192
 
 	// CAR文件工作目录
 	carFileWorkPath := cssConfig.CarFileWorkPath
