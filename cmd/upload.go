@@ -2,8 +2,8 @@ package main
 
 import (
 	"errors"
-	chainstoragesdk "github.com/paradeum-team/chainstorage-sdk"
-	"github.com/paradeum-team/chainstorage-sdk/model"
+	chainstoragesdk "github.com/solarfs/go-chainstorage-sdk"
+	"github.com/solarfs/go-chainstorage-sdk/model"
 	"github.com/spf13/cobra"
 	"github.com/ulule/deepcopier"
 	"net/http"

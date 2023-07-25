@@ -27,7 +27,7 @@ require (
 	golang.org/x/term v0.5.0 // indirect
 )
 
-require github.com/solarfs/go-chainstorage-sdk v0.0.5
+require github.com/solarfs/go-chainstorage-sdk v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/alanshaw/go-carbites v0.6.0 // indirect
