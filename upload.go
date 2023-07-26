@@ -62,7 +62,7 @@ func (u *Upload) UploadData(bucketName, dataPath string) (model.ObjectCreateResp
 
 	// 检查上传数据使用限制
 	storageNetworkCode := respBucket.Data.StorageNetworkCode
-	err = u.checkDataUsageLimitation(storageNetworkCode, dataPath)
+	err = u.checkUploadingDataUsageLimitation(storageNetworkCode, dataPath)
 	if err != nil {
 		return response, err
 	}
@@ -562,7 +562,7 @@ func (u *Upload) UploadDataViaStream(bucketName string, stream io.Reader) (model
 
 	// 检查上传数据使用限制
 	storageNetworkCode := respBucket.Data.StorageNetworkCode
-	err = u.checkDataUsageLimitation(storageNetworkCode, dataPath)
+	err = u.checkUploadingDataUsageLimitation(storageNetworkCode, dataPath)
 	if err != nil {
 		return response, err
 	}
@@ -615,7 +615,7 @@ func (u *Upload) receiveFile(stream io.Reader) (string, error) {
 // region auxiliary method
 
 // 检查上传数据使用限制
-func (u *Upload) checkDataUsageLimitation(storageNetworkCode int, dataPath string) error {
+func (u *Upload) checkUploadingDataUsageLimitation(storageNetworkCode int, dataPath string) error {
 	bucket := Bucket{Config: u.Config, Client: u.Client, logger: u.logger}
 
 	// 检查可用空间

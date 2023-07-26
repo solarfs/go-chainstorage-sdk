@@ -78,6 +78,8 @@ const (
 	errCarUploadFileExccedStorageSpaceUsage
 	errCarUploadFileExccedUploadDirItems
 	errCarUploadFileInvalidDataStream
+	errCarImportFileInvalidDataPath
+	errCarImportFileInvalidCarFormat
 )
 
 var (
@@ -149,6 +151,9 @@ var (
 	ErrCarUploadFileExccedStorageSpaceUsage = NewBizError(errCarUploadFileExccedStorageSpaceUsage, "超过空间存储限制", "Exceed the limitation of storage space")
 	ErrCarUploadFileExccedUploadDirItems    = NewBizError(errCarUploadFileExccedUploadDirItems, "超过上传文件夹条目限制", "Exceed the limitation of entries in uploading folder")
 	ErrCarUploadFileInvalidDataStream       = NewBizError(errCarUploadFileInvalidDataStream, "无效的上传数据流", "Invalid uploading data stream")
+
+	ErrCarImportFileInvalidDataPath  = NewBizError(errCarImportFileInvalidDataPath, "无效的导入数据路径", "Invalid importing data path")
+	ErrCarImportFileInvalidCarFormat = NewBizError(errCarImportFileInvalidCarFormat, "无效的CAR导入数据格式", "Invalid importing data path")
 
 	////登录注册
 	//ErrWalletInvalidFailed               = NewBizError(errLogin, "钱包地址非法空", "Invalid wallet")
