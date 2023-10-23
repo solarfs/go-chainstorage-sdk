@@ -39,7 +39,7 @@ func (r *RestyClient) getHeaders() *map[string]string {
 
 func (r *RestyClient) RestyGet(url string) (httpStatus int, body []byte, err error) {
 	resp, err := resty.
-		SetTimeout(time.Duration(60) * time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime) * time.Second).
 		SetHeaders(*r.getHeaders()).
 		R().Get(url)
 	if err != nil {
@@ -57,7 +57,7 @@ func (r *RestyClient) RestyGet(url string) (httpStatus int, body []byte, err err
 
 func (r *RestyClient) RestyPut(url string, data interface{}) (httpStatus int, body []byte, err error) {
 	resp, err := resty.
-		SetTimeout(time.Duration(60) * time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime) * time.Second).
 		SetHeaders(*r.getHeaders()).
 		R().SetBody(data).Put(url)
 	if err != nil {
@@ -75,7 +75,7 @@ func (r *RestyClient) RestyPut(url string, data interface{}) (httpStatus int, bo
 
 func (r *RestyClient) RestyPost(url string, data interface{}) (httpStatus int, body []byte, err error) {
 	resp, err := resty.
-		SetTimeout(time.Duration(60) * time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime) * time.Second).
 		SetHeaders(*r.getHeaders()).
 		R().SetBody(data).Post(url)
 	if err != nil {
@@ -98,7 +98,7 @@ func (r *RestyClient) RestyPostForm(filename string, filePath string, formData m
 	}
 
 	resp, err := resty.
-		SetTimeout(time.Duration(60)*time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime)*time.Second).
 		SetHeaders(*r.getHeaders()).
 		R().SetFileReader("file", filename, bytes.NewReader(fileb)).
 		SetFormData(formData).
@@ -120,7 +120,7 @@ func (r *RestyClient) RestyPostForm(filename string, filePath string, formData m
 
 func (r *RestyClient) RestyDelete(url string, data interface{}) (httpStatus int, body []byte, err error) {
 	resp, err := resty.
-		SetTimeout(time.Duration(60) * time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime) * time.Second).
 		SetHeaders(*r.getHeaders()).
 		R().
 		SetBody(data).
@@ -158,7 +158,10 @@ func (r *RestyClient) RestyPostFormExt(filename string, filePath string, formDat
 	}
 
 	resp, err := resty.
-		SetTimeout(time.Duration(60)*time.Second).
+		SetTimeout(time.Duration(r.Config.HttpRequestOvertime)*time.Second).
+		SetTransport(&http.Transport{
+			DisableKeepAlives: true,
+		}).
 		SetHeaders(*r.getHeaders()).
 		R().SetFileReader("file", filename, reader).
 		SetFormData(formData).

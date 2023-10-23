@@ -49,6 +49,7 @@ const (
 	errInvalidObjectId
 	errInvalidObjectIds
 	errObjectBindWithGateway
+	errObjectInvalidFolder
 )
 
 // ApiKey
@@ -78,6 +79,8 @@ const (
 	errCarUploadFileExccedStorageSpaceUsage
 	errCarUploadFileExccedUploadDirItems
 	errCarUploadFileInvalidDataStream
+	errCarImportFileInvalidDataPath
+	errCarImportFileInvalidCarFormat
 )
 
 var (
@@ -125,6 +128,7 @@ var (
 	ErrInvalidObjectId               = NewBizError(errInvalidObjectId, "无效的对象ID", "invalid object ID")
 	ErrInvalidObjectIds              = NewBizError(errInvalidObjectIds, "无效的对象ID列表", "invalid object ID list")
 	ErrObjectBindWithGateway         = NewBizError(errObjectBindWithGateway, "对象已经与网关绑定，无法删除", "The object is bound with gateway and cannot be deleted")
+	ErrObjectInvalidFolder           = NewBizError(errObjectInvalidFolder, "无效目录", "Not a directory")
 
 	// ApiKey
 	ErrApiKeyNotFound                        = NewBizError(errApiKeyNotFound, "该 APIKey 不存在", "The APIKey does not exist")
@@ -149,6 +153,8 @@ var (
 	ErrCarUploadFileExccedStorageSpaceUsage = NewBizError(errCarUploadFileExccedStorageSpaceUsage, "超过空间存储限制", "Exceed the limitation of storage space")
 	ErrCarUploadFileExccedUploadDirItems    = NewBizError(errCarUploadFileExccedUploadDirItems, "超过上传文件夹条目限制", "Exceed the limitation of entries in uploading folder")
 	ErrCarUploadFileInvalidDataStream       = NewBizError(errCarUploadFileInvalidDataStream, "无效的上传数据流", "Invalid uploading data stream")
+	ErrCarImportFileInvalidDataPath         = NewBizError(errCarImportFileInvalidDataPath, "无效的导入数据路径", "Invalid importing data path")
+	ErrCarImportFileInvalidCarFormat        = NewBizError(errCarImportFileInvalidCarFormat, "无效的CAR导入数据格式", "Invalid importing data path")
 
 	////登录注册
 	//ErrWalletInvalidFailed               = NewBizError(errLogin, "钱包地址非法空", "Invalid wallet")
@@ -202,6 +208,80 @@ var (
 	//// CAR文件上传
 	//ErrCarUploadFileParseFail = NewBizError(errCarUploadFileFail, "CAR上传文件解析失败", "CAR上传文件解析失败")
 )
+
+var BizErrorCodeBizErrorMapping = map[int]*bizError{
+	//登录注册
+	//errLogin: ErrWalletInvalidFailed,
+	errLogin:                             ErrLoginFailed,
+	errLoginVerifySignature:              ErrLoginVerifySignatureFailed,
+	errLoginInvalidWalletAddr:            ErrLoginInvalidWalletAddrFailed,
+	errLoginWalletAddrOrSignature:        ErrLoginWalletAddrOrSignatureFailed,
+	errUserNotFound:                      ErrUserNotFound,
+	errUserTokenExpired:                  ErrUserTokenExpired,
+	errNoPermissionFailed:                ErrNoPermissionFailed,
+	errUpdateUserIdNoSame:                ErrUpdateUserIdNoSame,
+	errUserRefreshTokenExpired:           ErrUserRefreshTokenExpired,
+	errUserInvalidMailbox:                ErrUserInvalidMailbox,
+	errUserInvalidMailVerificationInfo:   ErrUserInvalidMailVerificationInfo,
+	errUserMailAlreadyUsed:               ErrUserMailAlreadyUsed,
+	errUploadAvatarFail:                  ErrUploadAvatarFail,
+	errUserProhibitChangeVerifiedMail:    ErrUserProhibitChangeVerifiedMail,
+	errUserVerifiedMailSendLimitExceeded: ErrUserVerifiedMailSendLimitExceeded,
+	errUserTokenInvalid:                  ErrUserTokenInvalid,
+
+	// 桶
+	errBucketNotFound:                         ErrBucketNotFound,
+	errInvalidBucketName:                      ErrInvalidBucketName,
+	errBucketNameConflict:                     ErrBucketNameConflict,
+	errStorageNetworkMustSet:                  ErrStorageNetworkMustSet,
+	errBucketPrincipleMustSet:                 ErrBucketPrincipleMustSet,
+	errBucketMustBeEmpty:                      ErrBucketMustBeEmpty,
+	errBucketObjectNotFound:                   ErrBucketObjectNotFound,
+	errBucketVolumnStatFail:                   ErrBucketVolumnStatFail,
+	errBucketQuotaFetchFail:                   ErrBucketQuotaFetchFail,
+	errUserQuotaUpdateFail:                    ErrUserQuotaUpdateFail,
+	errOnlyCreate1BucketForSameStorageNetwork: ErrOnlyCreate1BucketForSameStorageNetwork,
+	errInvalidBucketId:                        ErrInvalidBucketId,
+	errStorageNetworkCodeMustSet:              ErrStorageNetworkCodeMustSet,
+	errBucketBindWithGateway:                  ErrBucketBindWithGateway,
+
+	// 文件列表
+	errObjectNotFound:                ErrObjectNotFound,
+	errInvalidObjectName:             ErrInvalidObjectName,
+	errObjectNameConflict:            ErrObjectNameConflictInBucket,
+	errObjectSetReferenceCounterFail: ErrObjectSetReferenceCounterFail,
+	errInvalidObjectCid:              ErrInvalidObjectCid,
+	errInvalidObjectId:               ErrInvalidObjectId,
+	errInvalidObjectIds:              ErrInvalidObjectIds,
+	errObjectBindWithGateway:         ErrObjectBindWithGateway,
+	errObjectInvalidFolder:           ErrObjectInvalidFolder,
+
+	// ApiKey
+	errApiKeyNotFound:                        ErrApiKeyNotFound,
+	errInvalidApiKeyName:                     ErrInvalidApiKeyName,
+	errApiKeyNameConflict:                    ErrApiKeyNameConflict,
+	errApiKeyGenerateFail:                    ErrApiKeyGenerateFail,
+	errApiKeyPermissionTypeMustSet:           ErrApiKeyPermissionTypeMustSet,
+	errApiKeyPermissionMustSet:               ErrApiKeyPermissionMustSet,
+	errApiKeyDataScopeMustSet:                ErrApiKeyDataScopeMustSet,
+	errApiKeyPinningServicePermissionMustSet: ErrApiKeyPinningServicePermissionMustSet,
+
+	// CAR文件上传
+	errCarUploadFileFail:                    ErrCarUploadFileFail,
+	errCarUploadFileInvalidDataPath:         ErrCarUploadFileInvalidDataPath,
+	errCarUploadFileCreateCarFileFail:       ErrCarUploadFileCreateCarFileFail,
+	errCarUploadFileParseCarFileFail:        ErrCarUploadFileParseCarFileFail,
+	errCarUploadFileComputeCarFileHashFail:  ErrCarUploadFileComputeCarFileHashFail,
+	errCarUploadFileChunkCarFileFail:        ErrCarUploadFileChunkCarFileFail,
+	errCarUploadFileReferenceObjcetFail:     ErrCarUploadFileReferenceObjcetFail,
+	errCarUploadFileInvalidDataFolder:       ErrCarUploadFileInvalidDataFolder,
+	errCarUploadFileExccedObjectAmountUsage: ErrCarUploadFileExccedObjectAmountUsage,
+	errCarUploadFileExccedStorageSpaceUsage: ErrCarUploadFileExccedStorageSpaceUsage,
+	errCarUploadFileExccedUploadDirItems:    ErrCarUploadFileExccedUploadDirItems,
+	errCarUploadFileInvalidDataStream:       ErrCarUploadFileInvalidDataStream,
+	errCarImportFileInvalidDataPath:         ErrCarImportFileInvalidDataPath,
+	errCarImportFileInvalidCarFormat:        ErrCarImportFileInvalidCarFormat,
+}
 
 //var (
 //

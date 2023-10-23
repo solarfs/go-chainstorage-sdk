@@ -49,7 +49,7 @@ type Configuration struct {
 	// CAR version
 	CarVersion int `profile:"carVersion" profileDefault:"1" json:"carVersion"`
 
-	UseHTTPSProtocol bool `profile:"useHttpsProtocol" profileDefault:"true" json:"useHttpsProtocol"`
+	UseHttpsProtocol bool `profile:"useHttpsProtocol" profileDefault:"true" json:"useHttpsProtocol"`
 }
 
 type LoggerConf struct {
@@ -76,7 +76,7 @@ func initConfig(config *ApplicationConfig) {
 		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
 			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
-			if cssConfig.UseHTTPSProtocol {
+			if cssConfig.UseHttpsProtocol {
 				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
 				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
@@ -110,7 +110,9 @@ func initConfig(config *ApplicationConfig) {
 	//cssConfig.CarFileShardingThreshold = 45613056
 
 	// car文件分片算法存在误差，因此实际分片大小限制到42MB
-	cssConfig.CarFileShardingThreshold = 44040192
+	//cssConfig.CarFileShardingThreshold = 44040192
+	// 上传超时优化，10MB
+	cssConfig.CarFileShardingThreshold = 10485760
 
 	// CAR文件工作目录
 	carFileWorkPath := cssConfig.CarFileWorkPath
@@ -167,7 +169,7 @@ func initConfigWithConfigFile(configFile string) {
 		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
 			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
-			if cssConfig.UseHTTPSProtocol {
+			if cssConfig.UseHttpsProtocol {
 				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
 				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
@@ -229,7 +231,7 @@ func InitConfigWithDefault() ApplicationConfig {
 		if !strings.HasPrefix(chainStorageAPIEndpoint, HTTP_PREFIX) &&
 			!strings.HasPrefix(chainStorageAPIEndpoint, HTTPS_PREFIX) {
 
-			if cssConfig.UseHTTPSProtocol {
+			if cssConfig.UseHttpsProtocol {
 				cssConfig.ChainStorageApiEndpoint = HTTPS_PREFIX + chainStorageAPIEndpoint
 			} else {
 				cssConfig.ChainStorageApiEndpoint = HTTP_PREFIX + chainStorageAPIEndpoint
