@@ -115,6 +115,19 @@ func (c *Car) ReferenceObject(req *model.CarFileUploadReq) (model.ObjectCreateRe
 		return response, err
 	}
 
+	//responseCode := int(response.Code)
+	//if responseCode != http.StatusOK {
+	//	c.logger.Errorf(fmt.Sprintf("API:ReferenceObject:BizError, apiUrl:%s, params:%+v, httpStatus:%d, body:%s\n", apiUrl, params, httpStatus, string(body)))
+	//
+	//	bizError, ok := code.BizErrorCodeBizErrorMapping[responseCode]
+	//	if !ok {
+	//		msg := response.Msg
+	//		bizError = code.NewBizError(responseCode, msg, msg)
+	//	}
+	//
+	//	return response, bizError
+	//}
+
 	//fmt.Printf("response:%+v", response)
 	return response, nil
 }

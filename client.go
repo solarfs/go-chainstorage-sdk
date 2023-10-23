@@ -115,6 +115,18 @@ func (c *CssClient) GetApiVersion() (model.VersionResponse, error) {
 	return response, nil
 }
 
+// NewExt 初始化SDK对象（KUGA专用）
+func NewExt(apiEndpoint, apiToken string) (*CssClient, error) {
+	config := ApplicationConfig{
+		Server: Configuration{
+			ChainStorageApiEndpoint: apiEndpoint,
+			ChainStorageApiToken:    apiToken,
+		},
+	}
+
+	return newClient(&config)
+}
+
 //// 按照存储类型获取Bucket容量统计
 //func (c *CssClient) GetStorageNetworkBucketStat(storageNetworkCode int) (model.BucketStorageTypeStatResp, error) {
 //	response := model.BucketStorageTypeStatResp{}
